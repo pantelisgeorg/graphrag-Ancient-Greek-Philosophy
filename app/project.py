@@ -51,11 +51,6 @@ class GraphRAGProject:
     def graph_html_path(self) -> Path:
         return self.output_dir / "_graph_preview.html"
 
-    # Back-compat alias (older code may still reference this name).
-    @property
-    def pyvis_html_path(self) -> Path:  # noqa: D401
-        return self.graph_html_path
-
     @property
     def stats_path(self) -> Path:
         return self.output_dir / "stats.json"

@@ -1,4 +1,4 @@
-"""Graph tab — inline pyvis preview + 'Open in Neo4j' button."""
+"""Graph tab — inline Cytoscape.js preview + 'Open in Neo4j' button."""
 from __future__ import annotations
 
 from pathlib import Path

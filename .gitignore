@@ -44,7 +44,6 @@ ragtest_en/
 
 # ----- Helper-app generated files -----
 **/_graph_preview.html
-**/_pyvis_preview.html
 
 # ----- PDF helper byproducts -----
 *.pdf.txt
