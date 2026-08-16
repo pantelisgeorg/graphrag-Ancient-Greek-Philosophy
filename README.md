@@ -83,11 +83,11 @@ export OPENAI_API_KEY=sk-...
 ```
 
 First time? Open the bundled `ragtest/` project (it's pre-loaded as the first recent
-project). It ships already initialized, and its `input/ output/ cache/ logs/` folders are
-created automatically the first time you open it — no extra step needed. Drop your
-`.txt` / `.csv` / `.json` files into `ragtest/input/`, then switch to the **Index** tab
-and click **Run indexing**. Watch the log stream; when it finishes, switch to the
-**Query** tab and ask a question.
+project). It ships with `settings.yaml` and the tuned prompts, but not `.env` or the
+data folders (those are git-ignored). On the **Index** tab, click **Initialize project**
+to generate `.env` and the `input/ output/ cache/ logs/` folders. Then drop your
+`.txt` / `.csv` / `.json` files into `ragtest/input/`, and click **Run indexing**. Watch
+the log stream; when it finishes, switch to the **Query** tab and ask a question.
 
 ---
 

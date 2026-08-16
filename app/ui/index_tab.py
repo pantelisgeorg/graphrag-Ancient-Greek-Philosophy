@@ -26,6 +26,17 @@ from ..indexer import Indexer
 from ..project import GraphRAGProject
 
 
+_ENV_TEMPLATE = """\
+# OpenAI-compatible API key (referenced as ${OPENAI_API_KEY} in settings.yaml)
+OPENAI_API_KEY=
+
+# Neo4j (optional — for the "Open in Neo4j" button)
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=
+"""
+
+
 class ResetDialog(QDialog):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -159,12 +170,15 @@ class IndexTab(QWidget):
             return
         if self._project.is_initialized():
             self._project.ensure_dirs()
-            self._append_log("[gui] Project already initialized — ensured folders, skipped re-init.")
+            if not self._project.env_path.exists():
+                self._project.env_path.write_text(_ENV_TEMPLATE, encoding="utf-8")
+            self._append_log("[gui] Project already initialized — ensured folders and .env, skipped re-init.")
             QMessageBox.information(
                 self,
-                "Already initialized",
-                "This project already has settings.yaml and prompts, so it was left untouched.\n"
-                "The input/ output/ cache/ logs/ folders have been ensured.",
+                "Project ready",
+                "This project already had settings.yaml and prompts, so they were left untouched.\n"
+                "The input/ output/ cache/ logs/ folders and a .env template have been ensured.\n"
+                "Fill in your API key (and Neo4j password) in Project → .env.",
             )
             return
         self._log.clear()
