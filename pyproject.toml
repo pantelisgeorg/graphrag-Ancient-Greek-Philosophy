@@ -1,0 +1,19 @@
+[project]
+name = "graphrag-gui"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "graphrag>=3.0.9",
+    "httpx>=0.28.1",
+    "neo4j>=5.0.0",
+    "networkx>=3.6.1",
+    "openai>=2.37.0",
+    "pandas>=2.3.3",
+    "pdfminer-six>=20251230",
+    "pyarrow>=22.0.0",
+    "pyside6>=6.11.1",
+    "python-dotenv>=1.2.2",
+    "pyvis>=0.3.2",
+    "pyyaml>=6.0.3",
+    "ruamel-yaml>=0.19.1",
+]

@@ -1,0 +1,62 @@
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.python-version
+
+# ----- uv / virtualenv -----
+.venv/
+venv/
+env/
+
+# ----- IDE / OS -----
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ----- Local secrets -----
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# ----- GraphRAG project artifacts (generated) -----
+# `graphrag init` recreates input/ (empty); `graphrag index` recreates
+# output/, cache/ and logs/. Never commit any of them.
+ragtest/input/
+ragtest/output/
+ragtest/cache/
+ragtest/logs/
+# If you keep additional GraphRAG projects in this repo, match the same pattern:
+*/input/
+*/output/
+*/cache/
+*/logs/
+
+# ----- Local scratch / personal projects (not shipped) -----
+sessions/
+ragtest_en/
+
+# ----- Helper-app generated files -----
+**/_graph_preview.html
+**/_pyvis_preview.html
+
+# ----- PDF helper byproducts -----
+*.pdf.txt
+
+# ----- App config (machine-local) -----
+# providers.json / recents.json / history.jsonl live under ~/.config/graphrag-gui/
+# so they're outside the repo, but ignore any stray copies just in case.
+providers.json
+recents.json
+history.jsonl
+
+# ----- Misc -----
+*.log
+*.tmp
+*.bak
