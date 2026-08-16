@@ -83,13 +83,21 @@ export OPENAI_API_KEY=sk-...
 ```
 
 First time? Open the bundled `ragtest/` project (it's pre-loaded as the first recent
-project). Drop your `.txt` / `.csv` / `.json` files into `ragtest/input/`, then switch
-to the **Index** tab and click **Run indexing**. Watch the log stream; when it finishes,
-switch to the **Query** tab and ask a question.
+project). It ships already initialized, and its `input/ output/ cache/ logs/` folders are
+created automatically the first time you open it — no extra step needed. Drop your
+`.txt` / `.csv` / `.json` files into `ragtest/input/`, then switch to the **Index** tab
+and click **Run indexing**. Watch the log stream; when it finishes, switch to the
+**Query** tab and ask a question.
 
 ---
 
 ## Workflows
+
+### Start a new project
+1. Toolbar → **New empty…**, choose a folder.
+2. **Index** tab → **Initialize project** — this generates `settings.yaml`, `prompts/`,
+   and the `input/ output/ cache/ logs/` folders.
+3. Add your documents to `input/` and continue with *Index a new corpus*.
 
 ### Index a new corpus
 1. Drop `.txt` / `.csv` / `.json` files into the project's `input/` folder.
