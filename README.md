@@ -49,6 +49,23 @@ Works with **OpenAI**, **Ollama**, and **LM Studio** (any OpenAI-compatible endp
 
 ---
 
+## Neo4j setup (optional)
+
+To use the **Open in Neo4j** button, add these to the project's `.env` file
+(e.g. `ragtest/.env`):
+
+```bash
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=neo4jragpass
+```
+
+You can create it in the app via **Project** tab → `.env` editor → **Save .env**, or by
+hand. `.env` is git-ignored, so your credentials stay local. (The same `.env` also holds
+`OPENAI_API_KEY` / `GRAPHRAG_API_KEY` for your models.)
+
+---
+
 ## Quick start
 
 ```bash
