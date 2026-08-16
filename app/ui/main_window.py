@@ -120,6 +120,8 @@ class MainWindow(QMainWindow):
     def _activate_project(self, root: Path | None) -> None:
         project = GraphRAGProject(root) if root else None
         self._project = project
+        if project is not None and project.is_initialized():
+            project.ensure_dirs()
         self._projects_tab.set_project(project)
         self._providers_tab.set_project(project)
         self._index_tab.set_project(project)

@@ -58,6 +58,7 @@ class Indexer(QObject):
         embedding: str = "text-embedding-3-large",
     ) -> None:
         project.root.mkdir(parents=True, exist_ok=True)
+        project.ensure_dirs()
         self._run(
             [
                 "init",

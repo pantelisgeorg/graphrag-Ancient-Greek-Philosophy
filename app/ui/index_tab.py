@@ -69,8 +69,8 @@ class IndexTab(QWidget):
         actions_group = QGroupBox("Actions")
         ag = QHBoxLayout(actions_group)
         self._init_btn = QPushButton("Initialize project")
-        self._init_btn.setToolTip("graphrag init --root <project> --force\n"
-                                  "Creates settings.yaml, prompts/, etc.")
+        self._init_btn.setToolTip("Initialize a new project (creates settings.yaml, prompts/,\n"
+                                  "input/, output/). Skips projects that are already initialized.")
         self._index_btn = QPushButton("Run indexing")
         self._index_btn.setToolTip("graphrag index --root <project>")
         self._tune_btn = QPushButton("Prompt-tune")
@@ -156,6 +156,16 @@ class IndexTab(QWidget):
     # ---- handlers ----
     def _on_init(self) -> None:
         if not self._require_project():
+            return
+        if self._project.is_initialized():
+            self._project.ensure_dirs()
+            self._append_log("[gui] Project already initialized — ensured folders, skipped re-init.")
+            QMessageBox.information(
+                self,
+                "Already initialized",
+                "This project already has settings.yaml and prompts, so it was left untouched.\n"
+                "The input/ output/ cache/ logs/ folders have been ensured.",
+            )
             return
         self._log.clear()
         self._progress.setValue(0)

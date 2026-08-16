@@ -87,6 +87,11 @@ class GraphRAGProject:
         except Exception:  # noqa: BLE001
             return {}
 
+    def ensure_dirs(self) -> None:
+        """Create the standard project subdirectories if they're missing."""
+        for d in (self.input_dir, self.output_dir, self.cache_dir, self.logs_dir):
+            d.mkdir(parents=True, exist_ok=True)
+
     # ---- mutation ----
     def reset(self, *, output: bool, cache: bool, logs: bool) -> list[str]:
         """Delete chosen subtrees. Returns a list of removed paths."""
@@ -110,16 +115,24 @@ class GraphRAGProject:
 
 def load_recent_projects() -> list[Path]:
     p = recents_path()
-    if not p.exists():
-        # seed with the bundled ragtest if it exists next to the app
-        candidate = Path(__file__).resolve().parents[1] / "ragtest"
-        if candidate.exists():
-            return [candidate]
-        return []
-    try:
-        return [Path(x) for x in json.loads(p.read_text())]
-    except Exception:  # noqa: BLE001
-        return []
+    stored: list[Path] = []
+    if p.exists():
+        try:
+            stored = [Path(x) for x in json.loads(p.read_text())]
+        except Exception:  # noqa: BLE001
+            stored = []
+
+    # Drop entries that no longer exist on disk.
+    stored = [x for x in stored if x.exists()]
+
+    # Always keep the bundled sample project available, and default to it. It's
+    # resolved relative to the app (not from a persisted absolute path) so it stays
+    # correct when the repo is cloned or moved to a new location.
+    bundled = Path(__file__).resolve().parents[1] / "ragtest"
+    if bundled.exists() and not any(x.resolve() == bundled.resolve() for x in stored):
+        stored.insert(0, bundled)
+
+    return stored
 
 
 def save_recent_projects(projects: list[Path]) -> None:
