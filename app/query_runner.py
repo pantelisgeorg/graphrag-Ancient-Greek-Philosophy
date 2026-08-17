@@ -3,26 +3,13 @@ forwards tokens via Qt signals."""
 from __future__ import annotations
 
 import asyncio
-import os
 import traceback
 from pathlib import Path
 from typing import Any, Optional
 
 from PySide6.QtCore import QObject, QThread, Signal
 
-from .project import GraphRAGProject
-
-
-def _load_env_from_project(project: GraphRAGProject) -> None:
-    """Read project's .env into os.environ so graphrag picks up ${OPENAI_API_KEY} etc."""
-    if not project.env_path.exists():
-        return
-    for raw in project.env_path.read_text().splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        k, v = line.split("=", 1)
-        os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+from .project import GraphRAGProject, load_project_env
 
 
 class _QueryWorker(QThread):
@@ -70,7 +57,7 @@ class _QueryWorker(QThread):
         from graphrag.callbacks.query_callbacks import QueryCallbacks
         import graphrag.api as api
 
-        _load_env_from_project(self.project)
+        load_project_env(self.project)
 
         self.info.emit(f"Loading config from {self.project.settings_path}…")
         config = load_config(self.project.root)

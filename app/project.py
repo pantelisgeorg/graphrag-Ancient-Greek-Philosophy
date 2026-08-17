@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -109,6 +110,27 @@ class GraphRAGProject:
                 removed.append(str(t))
             t.mkdir(parents=True, exist_ok=True)
         return removed
+
+
+def load_project_env(project: GraphRAGProject) -> None:
+    """Apply non-empty KEY=VALUE lines from the project's `.env` into `os.environ`.
+
+    Values are assigned (not `setdefault`) so that edits to `.env` take effect even
+    when an earlier read cached an empty value under the same key. Empty values are
+    skipped so a blank template line (e.g. `NEO4J_PASSWORD=`) never clobbers a
+    shell-exported secret such as `OPENAI_API_KEY`.
+    """
+    if not project.env_path.exists():
+        return
+    for raw in project.env_path.read_text().splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        key = k.strip()
+        value = v.strip().strip('"').strip("'")
+        if value:
+            os.environ[key] = value
 
 
 # ---------------- recents store ----------------

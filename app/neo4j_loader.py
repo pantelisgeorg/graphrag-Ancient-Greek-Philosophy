@@ -7,23 +7,12 @@ import webbrowser
 
 import pandas as pd
 
-from .project import GraphRAGProject
+from .project import GraphRAGProject, load_project_env
 
 
 _DEFAULT_URI = "bolt://localhost:7687"
 _DEFAULT_USER = "neo4j"
 _BROWSER_URL = "http://localhost:7474/browser/"
-
-
-def _load_env_from_project(project: GraphRAGProject) -> None:
-    if not project.env_path.exists():
-        return
-    for raw in project.env_path.read_text().splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        k, v = line.split("=", 1)
-        os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 
 def _sanitize_label(s: str) -> str:
@@ -43,7 +32,7 @@ def push_to_neo4j(project: GraphRAGProject, *, wipe: bool = True) -> tuple[bool,
             "Run: uv pip install neo4j  (or: pip install neo4j)"
         )
 
-    _load_env_from_project(project)
+    load_project_env(project)
     uri = os.environ.get("NEO4J_URI", _DEFAULT_URI)
     user = os.environ.get("NEO4J_USER", _DEFAULT_USER)
     password = os.environ.get("NEO4J_PASSWORD")
