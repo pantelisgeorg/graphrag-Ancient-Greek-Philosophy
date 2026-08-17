@@ -7,7 +7,7 @@
 completion_models:
   default_completion_model:
     model_provider: openai
-    model: gpt-4o
+    model: gpt-4.1-mini
     auth_method: api_key # or azure_managed_identity
     api_key: ${OPENAI_API_KEY} # picked up from your shell env
     retry:
